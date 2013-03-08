@@ -34,24 +34,37 @@ eclipse {
 		component { // org.eclipse.wst.common.component
 
 			//<wb-resource deploy-path="/" source-path="/war" tag="defaultRootSource"/>
-   			resources += [new org.gradle.plugins.ide.eclipse.model.WbResource("/", "/war")]
+   			//resources += [new org.gradle.plugins.ide.eclipse.model.WbResource("/", "/war")]
 
+			resource sourcePath: "war", deployPath: "/", tag: "defaultRootSource"
+			
    			//<property name="java-output-path" value="/WTP1-Original/build/classes"/>
    			properties += [new org.gradle.plugins.ide.eclipse.model.WbProperty("java-output-path", "/" + project.name + "/build/classes")]
+   			
+   			//file {
+   			//	withXml {
+   			//		it.asNode().appendNode('wb-resource', [ (deploy-path): "/", (source-path): "/war", tag: "defaultRootSource"])
+   			//	}
+   			//}
+   				
 		}
 
 		facet { // org.eclipse.wst.common.project.facet.core.xml
 
 			// <installed facet="wst.jsdt.web" version="1.0"/>
-			facets += [new org.gradle.plugins.ide.eclipse.model.Facet("wst.jsdt.web", "1.0")]
+			//facets += [new org.gradle.plugins.ide.eclipse.model.Facet("wst.jsdt.web", "1.0")]
 
-			file {
+			facet name: 'java', version: '1.7'
+			facet name: 'jst.web', version: '3.0'
+			facet name: 'wst.jsdt.web', version: '1.0'
 
-	        		withXml {
-					// <fixed facet="jst.web"/>
-    	    	  		it.asNode().appendNode('fixed', [ fixed: "wst.jsdt.web"])
-    	    			}
-        		}
+			//file {
+			//
+			//	withXml {
+			//	// <fixed facet="jst.web"/>
+			//		it.asNode().appendNode('fixed', [ fixed: "wst.jsdt.web"])
+			//	}
+			//}
 		}
 	}
 }
