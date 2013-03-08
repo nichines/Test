@@ -43,15 +43,19 @@ eclipse {
 		facet { // org.eclipse.wst.common.project.facet.core.xml
 
 			// <installed facet="wst.jsdt.web" version="1.0"/>
-			facets += [new org.gradle.plugins.ide.eclipse.model.Facet("wst.jsdt.web", "1.0")]
+			//facets += [new org.gradle.plugins.ide.eclipse.model.Facet("wst.jsdt.web", "1.0")]
 
-			file {
+			facet name: 'java', version: '1.7'
+			facet name: 'jst.web', version: '3.0'
+			facet name: 'wst.jsdt.web', version: '1.0'
 
-	        		withXml {
-					// <fixed facet="jst.web"/>
-    	    	  		it.asNode().appendNode('fixed', [ fixed: "wst.jsdt.web"])
-    	    			}
-        		}
+			//file {
+			//
+			//	withXml {
+			//	// <fixed facet="jst.web"/>
+			//		it.asNode().appendNode('fixed', [ fixed: "wst.jsdt.web"])
+			//	}
+			//}
 		}
 	}
 }
