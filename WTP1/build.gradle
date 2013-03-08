@@ -47,11 +47,11 @@ eclipse {
 
 			file {
 
-	        	withXml {
+	        		withXml {
 					// <fixed facet="jst.web"/>
-    	    	  	it.asNode().appendNode('fixed', [ fixed: "wst.jsdt.web"])
-    	    	}
-        	}
+    	    	  		it.asNode().appendNode('fixed', [ fixed: "wst.jsdt.web"])
+    	    			}
+        		}
 		}
 	}
 }
