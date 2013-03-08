@@ -1,0 +1,57 @@
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'eclipse-wtp'
+
+ext.servletApiVersion = '3.1-b07'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    providedCompile "javax.servlet:javax.servlet-api:$servletApiVersion"
+}
+
+sourceSets {
+	main {
+		java {
+			srcDirs 'src/test/java', 'src/main/java'
+		}
+	}
+}
+
+eclipse {
+	project {
+		natures += "org.eclipse.wst.jsdt.core.jsNature"
+		buildCommands += [new org.gradle.plugins.ide.eclipse.model.BuildCommand("org.eclipse.wst.jsdt.core.javascriptValidator")]
+	}
+
+	classpath {
+		defaultOutputDir = file('build/classes')
+	}
+
+	wtp {
+		component { // org.eclipse.wst.common.component
+
+			//<wb-resource deploy-path="/" source-path="/war" tag="defaultRootSource"/>
+   			resources += [new org.gradle.plugins.ide.eclipse.model.WbResource("/", "/war")]
+
+   			//<property name="java-output-path" value="/WTP1-Original/build/classes"/>
+   			properties += [new org.gradle.plugins.ide.eclipse.model.WbProperty("java-output-path", "/" + project.name + "/build/classes")]
+		}
+
+		facet { // org.eclipse.wst.common.project.facet.core.xml
+
+			// <installed facet="wst.jsdt.web" version="1.0"/>
+			facets += [new org.gradle.plugins.ide.eclipse.model.Facet("wst.jsdt.web", "1.0")]
+
+			file {
+
+	        	withXml {
+					// <fixed facet="jst.web"/>
+    	    	  	it.asNode().appendNode('fixed', [ fixed: "wst.jsdt.web"])
+    	    	}
+        	}
+		}
+	}
+}
