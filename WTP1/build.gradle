@@ -12,14 +12,6 @@ dependencies {
     providedCompile "javax.servlet:javax.servlet-api:$servletApiVersion"
 }
 
-sourceSets {
-	main {
-		java {
-			srcDirs 'src/test/java', 'src/main/java'
-		}
-	}
-}
-
 eclipse {
 	project {
 		natures += "org.eclipse.wst.jsdt.core.jsNature"
@@ -27,44 +19,27 @@ eclipse {
 	}
 
 	classpath {
-		defaultOutputDir = file('build/classes')
+		defaultOutputDir = file('build/main/classes')
+
+		file {
+			whenMerged { classpath ->
+  				classpath.entries.findAll { it.path.startsWith("src/test/") }*.output = "build/test/classes"
+  			}
+		}
 	}
 
 	wtp {
 		component { // org.eclipse.wst.common.component
 
 			//<wb-resource deploy-path="/" source-path="/war" tag="defaultRootSource"/>
-   			//resources += [new org.gradle.plugins.ide.eclipse.model.WbResource("/", "/war")]
-
 			resource sourcePath: "war", deployPath: "/", tag: "defaultRootSource"
-			
-   			//<property name="java-output-path" value="/WTP1-Original/build/classes"/>
-   			properties += [new org.gradle.plugins.ide.eclipse.model.WbProperty("java-output-path", "/" + project.name + "/build/classes")]
-   			
-   			//file {
-   			//	withXml {
-   			//		it.asNode().appendNode('wb-resource', [ (deploy-path): "/", (source-path): "/war", tag: "defaultRootSource"])
-   			//	}
-   			//}
-   				
 		}
 
 		facet { // org.eclipse.wst.common.project.facet.core.xml
 
-			// <installed facet="wst.jsdt.web" version="1.0"/>
-			//facets += [new org.gradle.plugins.ide.eclipse.model.Facet("wst.jsdt.web", "1.0")]
-
 			facet name: 'java', version: '1.7'
 			facet name: 'jst.web', version: '3.0'
 			facet name: 'wst.jsdt.web', version: '1.0'
-
-			//file {
-			//
-			//	withXml {
-			//	// <fixed facet="jst.web"/>
-			//		it.asNode().appendNode('fixed', [ fixed: "wst.jsdt.web"])
-			//	}
-			//}
 		}
 	}
 }
